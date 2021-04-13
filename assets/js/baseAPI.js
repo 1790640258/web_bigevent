@@ -14,13 +14,13 @@ $.ajaxPrefilter(function (options) {
 
     // 全局统一挂载 complete 回调函数
     // 无论成功还是失败都会调用complete函数
-    options.complete = function (res) {
+    options.complete = function ({responseJSON: {status, message}}) {
         // 在 complete 回调函数中，可以使用 res.responseJSON 拿到服务器响应回来的数据
-        if (({ status } = res) === 1 && ({ message } = res) === "身份认证失败！"); {
+        if (status === 1 && message === "身份认证失败！")   {
             // 清除本地的token
             localStorage.removeItem("token");
             // 强制跳转到login.html
-            location.href = "./../../home/login.html";
+            location.href = "/home/login.html";
         }
     }
 })
